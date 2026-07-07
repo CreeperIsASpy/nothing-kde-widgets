@@ -152,13 +152,13 @@ KCM.SimpleKCM {
 
             TextField {
                 id: locationField
-                placeholderText: i18n("e.g., Victoria, Canada or New York, US")
+                placeholderText: i18n("e.g., Victoria, Canada or Home|48.4284,-123.3656")
                 Layout.fillWidth: true
             }
         }
 
         Label {
-            text: i18n("Enter a city name, optionally followed by a country (e.g., 'Victoria, Canada'). The widget will automatically find the coordinates.")
+            text: i18n("Enter a city name, optionally followed by a country (e.g., 'Victoria, Canada'). For ambiguous or hard-to-find places, enter exact coordinates as 'Label|latitude,longitude'.")
             font.pointSize: 9
             opacity: 0.7
             Layout.fillWidth: true
