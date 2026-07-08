@@ -28,6 +28,7 @@ PlasmoidItem {
     // Configuration properties
     property string location: plasmoid.configuration.location
     property int temperatureUnit: plasmoid.configuration.temperatureUnit
+    readonly property string displayLocation: location.indexOf("|") >= 0 ? location.split("|")[0].trim() : location
 
     // WEATHER DATA
     property string currentTemp: "--"
@@ -258,10 +259,38 @@ PlasmoidItem {
         return results[0]
     }
 
+    function parseConfiguredCoordinates() {
+        var value = location
+        if (value.indexOf("|") >= 0)
+            value = value.split("|").slice(1).join("|")
+
+        var match = value.match(/^\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)\s*$/)
+        if (!match)
+            return null
+
+        var lat = Number(match[1])
+        var lon = Number(match[2])
+        if (isNaN(lat) || isNaN(lon) || lat < -90 || lat > 90 || lon < -180 || lon > 180)
+            return null
+
+        return {
+            latitude: lat,
+            longitude: lon
+        }
+    }
+
     // Geocoding function
     function geocodeLocation() {
         isLoading = true
         errorMessage = ""
+
+        var configuredCoordinates = parseConfiguredCoordinates()
+        if (configuredCoordinates) {
+            latitude = configuredCoordinates.latitude
+            longitude = configuredCoordinates.longitude
+            fetchWeatherData()
+            return
+        }
 
         var parts = location.split(",").map(function(s) { return s.trim() })
         var city = parts[0]
@@ -528,7 +557,7 @@ PlasmoidItem {
                         weatherIconPath: root.weatherIconPath
                         isLoading: root.isLoading
                         errorMessage: root.errorMessage
-                        location: root.location
+                        location: root.displayLocation
                     }
 
                     SquarePageTwo {
@@ -563,7 +592,7 @@ PlasmoidItem {
                         currentTemp: root.currentTemp
                         highTemp: root.highTemp
                         lowTemp: root.lowTemp
-                        location: root.location
+                        location: root.displayLocation
                         condition: root.condition
                     }
 
