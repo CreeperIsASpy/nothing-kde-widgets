@@ -12,7 +12,7 @@ Item {
     property string albumArt: ""
     property string track: ""
     property string artist: ""
-    property string playerIdentity: ""
+    property string playerIconName: ""
     property real position: 0
     property real length: 0
 
@@ -39,7 +39,7 @@ Item {
             anchors.margins: 20
             spacing: 6
 
-            // Top row: Album art + Player Identity
+            // Top row: Album art + player application icon
             Item {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 80
@@ -80,7 +80,7 @@ Item {
                         Layout.fillWidth: true
                     }
 
-                    // Player Identity Icon
+                    // Player application icon
                     Rectangle {
                         Layout.alignment: Qt.AlignTop | Qt.AlignRight
                         Layout.preferredWidth: 44
@@ -93,22 +93,8 @@ Item {
                             anchors.centerIn: parent
                             width: 28
                             height: 28
-                            source: {
-                                // Try to map common player names to their icons
-                                var identity = compactRoot.playerIdentity.toLowerCase()
-                                if (identity.includes("spotify")) return "spotify"
-                                if (identity.includes("vlc")) return "vlc"
-                                if (identity.includes("firefox")) return "firefox"
-                                if (identity.includes("chrome")) return "google-chrome"
-                                if (identity.includes("mpv")) return "mpv"
-                                if (identity.includes("strawberry")) return "strawberry"
-                                if (identity.includes("elisa")) return "elisa"
-                                if (identity.includes("amarok")) return "amarok"
-                                if (identity.includes("rhythmbox")) return "rhythmbox"
-                                if (identity.includes("clementine")) return "clementine"
-                                // Default fallback
-                                return "media-player"
-                            }
+                            // MPRIS resolves this from the player's desktop-entry ID.
+                            source: compactRoot.playerIconName || "media-player"
                             color: compactRoot.colors.textPrimary
                         }
                     }
