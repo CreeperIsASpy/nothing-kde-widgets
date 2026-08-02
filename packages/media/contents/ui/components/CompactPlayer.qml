@@ -61,6 +61,7 @@ Item {
                             anchors.fill: parent
                             source: compactRoot.albumArt
                             fillMode: Image.PreserveAspectCrop
+                            mipmap: true
                             smooth: true
                             visible: compactRoot.albumArt !== ""
                         }
