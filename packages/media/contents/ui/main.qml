@@ -29,7 +29,7 @@ PlasmoidItem {
     readonly property string artist: mpris2Model.currentPlayer?.artist ?? ""
     readonly property string album: mpris2Model.currentPlayer?.album ?? ""
     readonly property string albumArt: mpris2Model.currentPlayer?.artUrl ?? ""
-    readonly property string playerIdentity: mpris2Model.currentPlayer?.identity ?? ""
+    readonly property string playerIconName: mpris2Model.currentPlayer?.iconName ?? ""
     readonly property int playbackStatus: mpris2Model.currentPlayer?.playbackStatus ?? 0
     readonly property bool isPlaying: root.playbackStatus === Mpris.PlaybackStatus.Playing
     readonly property bool canGoPrevious: mpris2Model.currentPlayer?.canGoPrevious ?? false
@@ -126,7 +126,7 @@ PlasmoidItem {
                 albumArt: root.albumArt
                 track: root.track
                 artist: root.artist
-                playerIdentity: root.playerIdentity
+                playerIconName: root.playerIconName
                 position: root.position
                 length: root.length
             }
